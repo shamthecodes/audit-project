@@ -1,7 +1,8 @@
-import { Inter } from "next/font/google";
+import { Geist } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "sonner";
 
-const inter = Inter({ subsets: ["latin"] });
+const geist = Geist({ subsets: ["latin"] });
 
 export const metadata = {
   title: "SpendLens — Free AI Spend Audit for Startups",
@@ -23,8 +24,19 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className}`} suppressHydrationWarning>
+      <body className={geist.className} suppressHydrationWarning>
         {children}
+        <Toaster
+          position="top-center"
+          richColors
+          toastOptions={{
+            style: {
+              background: "#1f2937",
+              border: "1px solid #374151",
+              color: "#fff",
+            },
+          }}
+        />
       </body>
     </html>
   );

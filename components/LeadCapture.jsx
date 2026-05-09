@@ -4,21 +4,37 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
+import emailjs from "@emailjs/browser";
 
-export default function LeadCapture({ result, onSuccess }) {
+export default function LeadCapture({ result, auditId, onSuccess }) {
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
   const [role, setRole] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+
+  function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
+
+    // Validate email
+    if (!email) {
+      toast.error("Please enter your email address.");
+      return;
+    }
+    if (!validateEmail(email)) {
+      toast.error("That email doesn't look right. Please check and try again.");
+      return;
+    }
+
     setLoading(true);
-    setError("");
 
     try {
-      const res = await fetch("/api/capture", {
+      // Save lead to backend (Supabase via Prisma)
+      await fetch("/api/capture", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -26,13 +42,35 @@ export default function LeadCapture({ result, onSuccess }) {
           companyName: company,
           role,
           result,
+          auditId,
         }),
       });
 
-      if (!res.ok) throw new Error("Failed to submit");
+      // Send email directly to user via EmailJS
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+        {
+          to_email: email,
+          to_name: company || "there",
+          monthly_savings: result.totalMonthlySavings.toFixed(0),
+          annual_savings: result.totalAnnualSavings.toFixed(0),
+          current_spend: result.totalCurrentSpend.toFixed(0),
+          tool_count: result.tools.length,
+          use_case: result.useCase,
+          show_credex: result.showCredex ? "true" : "false",
+          audit_url: auditId
+            ? `${window.location.origin}/audit/${auditId}`
+            : window.location.origin,
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
+      );
+
+      toast.success("Report sent! Check your inbox.");
       onSuccess();
     } catch (err) {
-      setError("Something went wrong. Please try again.");
+      console.error(err);
+      toast.error("Something went wrong sending the email. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -51,9 +89,17 @@ export default function LeadCapture({ result, onSuccess }) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@company.com"
-            className="bg-gray-800 border-gray-700 text-white"
+            className={`bg-gray-800 border-gray-700 text-white ${
+              email && !validateEmail(email) ? "border-red-500" : ""
+            }`}
           />
+          {email && !validateEmail(email) && (
+            <p className="text-red-400 text-xs">
+              Please enter a valid email address
+            </p>
+          )}
         </div>
+
         <div className="space-y-2">
           <Label className="text-gray-300">Company (optional)</Label>
           <Input
@@ -63,6 +109,7 @@ export default function LeadCapture({ result, onSuccess }) {
             className="bg-gray-800 border-gray-700 text-white"
           />
         </div>
+
         <div className="space-y-2 md:col-span-2">
           <Label className="text-gray-300">Role (optional)</Label>
           <Input
@@ -74,18 +121,23 @@ export default function LeadCapture({ result, onSuccess }) {
         </div>
       </div>
 
-      {error && <p className="text-red-400 text-sm">{error}</p>}
-
       <Button
         type="submit"
         disabled={loading}
         className="w-full bg-emerald-500 hover:bg-emerald-400 text-black font-semibold"
       >
-        {loading ? "Sending..." : "Send me the report"}
+        {loading ? (
+          <span className="flex items-center gap-2">
+            <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+            Sending your report...
+          </span>
+        ) : (
+          "Send me the report"
+        )}
       </Button>
 
       <p className="text-gray-500 text-xs text-center">
-        No spam. Your email is only used to send this report.
+        No spam. One email with your audit report. Unsubscribe anytime.
       </p>
     </form>
   );

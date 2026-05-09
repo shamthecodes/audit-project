@@ -246,7 +246,7 @@ export default function AuditResults({ result, onReset, auditId }) {
                 <Button
                   onClick={() => setShowLeadCapture(true)}
                   variant="outline"
-                  className="border-gray-600 text-white hover:bg-gray-800 shrink-0"
+                  className="border-gray-600 text-black hover:bg-gray-600 shrink-0"
                 >
                   <Mail className="w-4 h-4 mr-2" />
                   Email me this report

@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@arcjet/next": "^1.4.0",
+    "@emailjs/browser": "^4.4.1",
     "@google/generative-ai": "^0.24.1",
     "@prisma/client": "^6.15.0",
     "@supabase/supabase-js": "^2.105.3",

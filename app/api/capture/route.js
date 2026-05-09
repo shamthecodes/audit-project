@@ -40,7 +40,7 @@ export async function POST(request) {
 
     // Always send the email
     await resend.emails.send({
-      from: "SpendLens <onboarding@resend.dev>",
+      from: "SpendLens <audit@auditproject.com>",
       to: email,
       subject: `Your AI Spend Audit — $${result?.totalMonthlySavings || 0}/mo in potential savings`,
       html: `
