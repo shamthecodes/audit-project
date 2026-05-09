@@ -171,8 +171,11 @@ export default function AuditResults({ result, onReset, auditId }) {
           Tool-by-Tool Breakdown
         </h2>
 
-        {result.tools.map((tool) => (
-          <Card key={tool.toolKey} className="bg-gray-900 border-gray-800">
+        {result.tools.map((tool, index) => (
+          <Card
+            key={`${tool.toolKey}-${index}`}
+            className="bg-gray-900 border-gray-800"
+          >
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">

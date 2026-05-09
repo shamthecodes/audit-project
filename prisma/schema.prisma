@@ -26,6 +26,6 @@ model Lead {
   companyName String?
   role        String?
   teamSize    String?
-  auditId     String   @unique
-  audit       Audit    @relation(fields: [auditId], references: [id])
+  auditId     String?  @unique
+  audit       Audit?   @relation(fields: [auditId], references: [id])
 }

@@ -13,20 +13,10 @@ export default function Home() {
   async function handleAudit(formData) {
     setLoading(true);
 
-    // Run audit locally
     const result = runAudit(formData);
 
     try {
-      // Save to Supabase and get ID
-      const saveRes = await fetch("/api/audit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(result),
-      });
-      const { id } = await saveRes.json();
-      setSavedAuditId(id);
-
-      // Get Gemini summary
+      // Get Gemini summary first
       const summaryRes = await fetch("/api/summary", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -34,9 +24,18 @@ export default function Home() {
       });
       const { summary } = await summaryRes.json();
 
+      // Save audit + summary to DB
+      const saveRes = await fetch("/api/audit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...result, summary }),
+      });
+      const { id } = await saveRes.json();
+      setSavedAuditId(id);
+
       setAuditResult({ ...result, summary });
     } catch (error) {
-      // Still show results even if API fails
+      console.error(error);
       setAuditResult(result);
     }
 

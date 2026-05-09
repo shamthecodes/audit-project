@@ -25,6 +25,7 @@ export async function POST(request) {
         tools: tools,
         totalMonthlySavings,
         totalAnnualSavings,
+        summary: body.summary || null,
         isPublic: true,
       },
     });
