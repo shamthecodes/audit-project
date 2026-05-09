@@ -5,7 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import emailjs from "@emailjs/browser";
+
+function validateEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
 
 export default function LeadCapture({ result, auditId, onSuccess }) {
   const [email, setEmail] = useState("");
@@ -13,14 +16,9 @@ export default function LeadCapture({ result, auditId, onSuccess }) {
   const [role, setRole] = useState("");
   const [loading, setLoading] = useState(false);
 
-  function validateEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  }
-
   async function handleSubmit(e) {
     e.preventDefault();
 
-    // Validate email
     if (!email) {
       toast.error("Please enter your email address.");
       return;
@@ -33,8 +31,7 @@ export default function LeadCapture({ result, auditId, onSuccess }) {
     setLoading(true);
 
     try {
-      // Save lead to backend (Supabase via Prisma)
-      await fetch("/api/capture", {
+      const res = await fetch("/api/capture", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -46,31 +43,13 @@ export default function LeadCapture({ result, auditId, onSuccess }) {
         }),
       });
 
-      // Send email directly to user via EmailJS
-      await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-        {
-          to_email: email,
-          to_name: company || "there",
-          monthly_savings: result.totalMonthlySavings.toFixed(0),
-          annual_savings: result.totalAnnualSavings.toFixed(0),
-          current_spend: result.totalCurrentSpend.toFixed(0),
-          tool_count: result.tools.length,
-          use_case: result.useCase,
-          show_credex: result.showCredex ? "true" : "false",
-          audit_url: auditId
-            ? `${window.location.origin}/audit/${auditId}`
-            : window.location.origin,
-        },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
-      );
+      if (!res.ok) throw new Error("Failed");
 
       toast.success("Report sent! Check your inbox.");
       onSuccess();
     } catch (err) {
       console.error(err);
-      toast.error("Something went wrong sending the email. Please try again.");
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -85,7 +64,6 @@ export default function LeadCapture({ result, auditId, onSuccess }) {
           </Label>
           <Input
             type="email"
-            required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@company.com"
@@ -137,7 +115,7 @@ export default function LeadCapture({ result, auditId, onSuccess }) {
       </Button>
 
       <p className="text-gray-500 text-xs text-center">
-        No spam. One email with your audit report. Unsubscribe anytime.
+        No spam. One email with your audit report.
       </p>
     </form>
   );
