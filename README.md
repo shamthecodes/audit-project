@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SpendLens — AI Spend Audit for Startups
 
-## Getting Started
+I built this because most startups I talked to had no idea if they were on the right AI tool plan. They just paid the bill. SpendLens fixes that — enter what you pay, get an instant breakdown of where you're wasting money and what to do about it.
 
-First, run the development server:
+**Live URL:** https://your-vercel-url.vercel.app
+
+## What it does
+
+You enter your AI tools, plans, seats, and monthly spend. The app runs an audit against current official pricing, flags where you're overpaying or on the wrong plan, and shows you exactly how much you could save per month and per year. For audits showing over $500/mo in savings, it surfaces Credex as a way to capture even more through discounted credits.
+
+No login. No signup. Value first, email after.
+
+## Screenshots
+
+## Quick Start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+
+Open http://localhost:3000
+
+## Environment Variables
+DATABASE_URL=               # Supabase pooled connection string
+DIRECT_URL=                 # Supabase direct connection string
+RESEND_API_KEY=             # From resend.com
+ARCJET_KEY=                 # From arcjet.com
+GEMINI_API_KEY=             # From aistudio.google.com
+NEXT_PUBLIC_APP_URL=        # Your deployed URL
+NEXT_PUBLIC_SUPABASE_URL=   # From Supabase dashboard
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+DATABASE_URL= # Supabase pooled connection string
+DIRECT_URL= # Supabase direct connection string
+RESEND_API_KEY= # From resend.com
+ARCJET_KEY= # From arcjet.com
+GEMINI_API_KEY= # From aistudio.google.com
+NEXT_PUBLIC_APP_URL= # Your deployed URL
+NEXT_PUBLIC_SUPABASE_URL= # From Supabase dashboard
