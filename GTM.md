@@ -42,7 +42,7 @@ These are comparison and justification searches. The person already paying and w
 
 Credex already has customers buying AI credits. Every existing Credex customer is a perfect SpendLens user — they already care about AI tool costs, they're already spending money on it. An email to the existing Credex customer list with "audit your full stack" is a distribution channel no competitor has.
 
-## What Week 1 Looks Like If This Works
+## What before thr Week Looks Like If This Works
 
 - 400+ audits completed
 - 100+ emails captured

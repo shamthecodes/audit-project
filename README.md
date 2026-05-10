@@ -12,6 +12,22 @@ No login. No signup. Value first, email after.
 
 ## Screenshots
 
+### Landing Page
+
+![Landing Page](public/screenshots/landing.png)
+
+### Adding items
+
+![Adding item](public/screenshots/adding_tool.png)
+
+### Audit Results
+
+![Results](public/screenshots/results.png)
+
+### Email Delivery
+
+![Email](public/screenshots/email.png)
+
 ## Quick Start
 
 ```bash
