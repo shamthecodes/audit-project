@@ -2,7 +2,7 @@
 
 I built this because most startups I talked to had no idea if they were on the right AI tool plan. They just paid the bill. SpendLens fixes that — enter what you pay, get an instant breakdown of where you're wasting money and what to do about it.
 
-**Live URL:** https://your-vercel-url.vercel.app
+**Live URL:** https://audit-project-alpha.vercel.app/
 
 ## What it does
 
