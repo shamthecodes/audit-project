@@ -14,7 +14,7 @@
 
 ## Day 2 — 2026-05-09
 
-**Hours worked:** 7
+**Hours worked:** 5
 
 **What I did:** Built SpendForm component with localStorage persistence so form state survives page reloads. Built AuditResults component with per-tool breakdown, savings hero card, and Credex CTA for high savings cases. Built LeadCapture component with email validation and sonner toast notifications. Built all three API routes — audit save, Gemini summary generation, and email capture. Set up shareable URL page at /audit/[id] with OG meta tags and Twitter card. Fixed hydration warning caused by browser extensions injecting fdprocessedid attributes. Configured Resend for email and documented free tier limitation.
 
@@ -28,7 +28,7 @@
 
 ## Day 3 — 2026-05-10
 
-**Hours worked:** 7
+**Hours worked:** 6
 
 **What I did:** Filled all required markdown files — METRICS, PRICING_DATA, PROMPTS, TESTS, LANDING_COPY, GTM, ECONOMICS, ARCHITECTURE, README. Verified all 6 MVP features work end to end locally. Fixed duplicate tool key warning in AuditResults by adding index to map key. Verified Gemini summary appears on results page. Added sonner toast validation for all form inputs including zero spend, negative values, and invalid seat counts. Removed unused gemini.js file and confirmed summary route uses inline Gemini implementation.
 
